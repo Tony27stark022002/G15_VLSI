@@ -1,0 +1,62 @@
+//Assingment Tcl
+input.txt :-
+Name       Delay     Trans    Load
+
+AND1_2X   1.50ns    0.1      1.25ff
+
+AND1_3X   1.75ns    0.2      1.98ff
+
+AND2_3X   2.37ns    0.3      2.27ff
+
+AND2_4X   1.82ns    0.5      2.54ff
+
+NAND1_2X  2.14ns    0.2      1.69ff
+
+NAND2_3X  2.48ns    0.3      2.11ff
+
+intput2.txt:-
+
+CELL_1: AND1_2X
+CELL_2: AND2_3X
+CELL_3: AND2_4X
+CELL_4: NAND2_3X
+
+
+assingment2.tcl:-
+
+set fh [open input.txt r]
+set ff [read $fh]
+set t1 [split $ff "\n"]
+set gh [open input2.txt r]
+set gf [read $gh]
+set TotalDelay 0
+set t2 [split $gf "\n"]
+set rt [open result.txt a+]
+
+puts $rt "[lindex $t1 0 0]\t[lindex $t1 0 2]\t[lindex $t1 0 3]\t[lindex $t1 0 1]\tTotalDelay"
+puts $rt "---------------------------------------------------------------------"
+
+foreach i [lrange $t1 1 end] {
+    foreach j $t2 {
+        if { [lindex $j 1] == [lindex $i 0] } {
+            set digits [regexp -inline {\d+\.\d+} [lindex $i 1]]
+
+            if {[llength $digits] > 0} {
+                set temp 0.0
+                foreach num $digits {
+                    set temp [expr {$temp + $num}]
+                }
+                set TotalDelay [expr {$TotalDelay + $temp}]
+                puts $rt "[lindex $i 0]\t[lindex $i 2]\t[lindex $i 3]\t[lindex $i 1]\t$TotalDelay"
+
+            }
+         }
+    }
+}
+
+close $fh
+close $gh
+close $rt
+
+
+      
