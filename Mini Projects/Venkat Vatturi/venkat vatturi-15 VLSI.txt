@@ -1,0 +1,118 @@
+QUESTION NUMBER :1
+SOLUTION 
+
+
+###input.txt:
+Name       Delay     Trans    Load
+AND1_2X   1.50ns    0.1      1.25ff
+AND1_3X   1.75ns    0.2      1.98ff
+AND2_3X   2.37ns    0.3      2.27ff
+AND2_4X   1.82ns    0.5      2.54ff
+NAND1_2X  2.14ns    0.2      1.69ff
+NAND2_3X  2.48ns    0.3      2.11ff
+
+###code:
+
+set f1 [open "input.txt" r]
+set f2 [read $f1]
+set f3 [split $f2 "\n"]
+close $f1
+set f4 [open "output.txt" a+]
+foreach p [lrange $f3 0 end-1]  {
+
+        set q [list [lindex $p 0] [lindex $p 2] [lindex $p 3] [lindex $p 1] ]
+        puts $q
+   }
+close $f4
+
+
+##output:
+
+% source code.TCL
+Name Trans Load Delay
+AND1_2X 0.1 1.25ff 1.50ns
+AND1_3X 0.2 1.98ff 1.75ns
+AND2_3X 0.3 2.27ff 2.37ns
+AND2_4X 0.5 2.54ff 1.82ns
+NAND1_2X 0.2 1.69ff 2.14ns
+NAND2_3X 0.3 2.11ff 2.48ns
+
+QUESTION NUMBER :2
+SOLUTION 
+
+input files:
+
+##code1.txt
+Name       Delay     Trans    Load
+AND1_2X   1.50ns    0.1      1.25ff
+AND1_3X   1.75ns    0.2      1.98ff
+AND2_3X   2.37ns    0.3      2.27ff
+AND2_4X   1.82ns    0.5      2.54ff
+NAND1_2X  2.14ns    0.2      1.69ff
+NAND2_3X  2.48ns    0.3      2.11ff
+
+##code2.txt
+CELL_1: AND1_2X
+CELL_2: AND2_3X
+CELL_3: AND2_4X
+CELL_4: NAND2_3X
+
+
+code:
+set input_file1 [open "code1.txt" r]
+set f1 [read $input_file1]
+
+set f2 [split $f1 "\n"]
+
+set input_file2 [open "code2.txt" r]
+
+set f3 [read $input_file2]
+
+set f4 [split $f3 "\n"]
+
+set output_file [open "output1.txt" a+]
+
+set sum_delay 0.0
+
+puts $output_file "[lindex $f2 0 0]\t [lindex $f2 0 2]\t [lindex $f2 0 3]\t [lindex $f2 0 1]\t sum_delay"
+
+puts $output_file
+
+foreach p [lrange $f2 1 end] {
+        foreach q $f4 {
+                if { [lindex $q 1] == [lindex $p 0] } {
+                        set digits [regexp -nocase {\d+} [lindex $p 2]]
+
+                        if {[llength $digits] >0} {
+                                set temp [expr {0} ]
+                                foreach num $digits {
+                                        set temp [expr {$temp + $num} ]
+                                }
+                                set sum_delay [expr {$sum_delay +$temp} ]
+                                puts $output_file "[lindex $p 0]\t [lindex $p 2]\t [lindex $p 3]\t [lindex $p 1]\t $sum_delay"
+                        }
+
+}
+
+}
+
+}
+
+close $input_file1
+
+close $input_file2
+
+close $output_file
+
+
+
+
+####output:
+
+Name     Trans   Load    Delay   sum_delay
+AND1_2X  0.1     1.25ff  1.50ns  1.0
+AND2_3X  0.3     2.27ff  2.37ns  2.0
+AND2_4X  0.5     2.54ff  1.82ns  3.0
+NAND2_3X         0.3     2.11ff  2.48ns  4.0
+                                 4.0
+

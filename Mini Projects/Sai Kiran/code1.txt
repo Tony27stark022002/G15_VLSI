@@ -1,0 +1,41 @@
+set fileh2 [open output.txt w+]
+foreach i $text1 {
+
+                set temp [list [lindex $i 0] [lindex $i 2] [lindex $i 3] [lindex $i 1]]
+                puts $fileh2 "$temp"
+                lappend new_list1 $temp
+        }
+puts "output-1 is:"
+puts $new_list1
+close $fileh2
+proc calc_total_delay {new_list2} {
+        set total_delay ""
+        set temp_delay 0
+        foreach ele $sublist {
+                set temp_delay [expr {$temp_delay+$ele}]
+                lappend total_delay $temp_delay
+        }
+        return $total_delay
+}
+set fileh3 [open input2.txt r]
+set data2 [read $fileh3]
+set text2 [split $data2 "\n"]
+close $fileh3
+foreach ele $text2 {
+        foreach obj $new_list1 {
+               if {[lindex $ele 1]==[lindex $obj 0]} {
+                       lappend new_list2 $obj
+               }
+       }
+}
+puts $new_list2
+foreach ele $new_list2 {
+        lappend new_list3 [lindex $ele 3]]
+}
+set total_delay [calc_total_delay $new_list2]
+set new_list3 [linsert $total_delay 0 "total_delay"]
+set new_list2 [linsert $new_list2 0 [lindex $new_list1 0]]
+for {set i 0} {$i<5} {incr i} {
+        set new_list4 [concat [lindex $new_list2 $i] [lindex $new_list3 $i]]
+        puts $new_list4
+        lappend total_delay $new_list4

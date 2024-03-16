@@ -1,0 +1,16 @@
+`timescale 1ns / 1ps
+module mod12_count(
+input clk, output reg [3:0] count_0,count_1 );
+initial begin
+count_0<=4'b0000;
+count_1<=4'b1111;
+end
+always@(posedge clk)begin
+count_0<=count_0+1;
+if(count_0==4'b1100)
+begin
+count_0<=4'b0000;
+count_1<=count_1-1;
+end
+end
+endmodule

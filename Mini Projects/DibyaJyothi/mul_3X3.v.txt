@@ -1,0 +1,23 @@
+module mul_3X3(input [2:0]a,b,output[5:0]y);
+wire [2:0]pp1;
+wire [3:0]pp2;
+wire [4:0]pp3;
+wire [5:0]s1;
+assign pp1={3{a[0]}}&b;
+assign pp2={3{a[1]}}&b;
+assign pp3={3{a[2]}}&b;
+assign s1=pp1+(pp2<<1);
+assign y=s1+(pp3<<2);
+endmodule
+
+TEST_BENCH:
+module mul_3X3_tb();
+reg [2:0]a,b;
+wire [5:0]y;
+mul_3X3 m1(.a(a),.b(b),.y(y));
+initial begin
+a=3'b111;
+b=3'b110;
+#10 $finish;
+end
+endmodule

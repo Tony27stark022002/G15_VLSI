@@ -1,0 +1,25 @@
+`timescale 1ns / 1ps
+module multiplier_3by3(p,q,result);
+input [2:0]p;
+input [2:0]q;
+output [5:0]result;
+
+wire [2:0]pp1;
+wire [3:0]pp2;
+wire [4:0]pp3;
+wire [5:0]s1;
+wire [5:0]s2;
+
+assign pp1={3{p[0]}}&q;
+assign pp2={3{p[1]}}&q;
+assign pp3={3{p[2]}}&q;
+assign s1=pp1+(pp2<<1);
+assign s2=s1+(pp3<<2);
+assign result=s2;
+endmodule
+
+
+
+
+
+

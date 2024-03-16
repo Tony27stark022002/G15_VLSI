@@ -1,0 +1,37 @@
+module seq_melay(
+output reg o_led,
+input i_clock,
+input i_reset,
+input i_btn
+);
+localparam [2:0] s0=0, s1=1, s2=2, s3=3 ;
+reg [2:0] state, next_state;
+always@(posedge i_clock)
+begin
+ if(i_reset)
+   state <=3'b000;
+ else
+   state <= next_state;
+end
+always@(*) begin
+next_state = state;
+case(state)
+s0: next_state <=i_btn ? s1 : s0 ;
+s1: next_state <=i_btn ? s1 : s2 ;
+s2: next_state <=i_btn ? s3 : s0 ;
+s3: next_state <=i_btn ? s1 : s2 ;//  overlapping
+endcase
+end
+always@(posedge i_clock) 
+begin
+if(i_reset)
+    o_led <= 0 ;
+else
+begin
+if(~i_btn & (state == s3))
+    o_led <= 1'b1 ;
+else
+    o_led <=1'b0 ;
+    end
+end         
+endmodule

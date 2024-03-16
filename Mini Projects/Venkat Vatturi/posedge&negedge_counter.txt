@@ -1,0 +1,19 @@
+`timescale 1ns / 1ps
+module pos_and_neg_edge_counter (clk,neg_edge,pos_edge);
+input clk;
+output reg [2:0]pos_edge;
+output reg [2:0]neg_edge;
+initial
+begin
+pos_edge=3'b0;
+neg_edge=3'b0;
+end
+always@(posedge clk)
+begin
+pos_edge<=pos_edge+1;
+end
+always@(negedge clk)
+begin
+neg_edge<=neg_edge+1;
+end
+endmodule

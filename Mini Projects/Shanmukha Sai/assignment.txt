@@ -1,0 +1,40 @@
+set f1 [open file_input1.txt r]
+set data1 [split [read $f1] "\n"]
+set f2 [open file_input2.txt r]
+set data2 [split [read $f2] "\n"]
+set fo [open file_output.txt a+]
+set arr []
+proc change_col {data1} {
+foreach column $data1 {
+lappend arr [list [lindex $column 0] [lindex $column 2] [lindex $column 3] [lindex $column 1]]
+}
+return $arr
+}
+
+set  rearrange [change_col $data1]
+set temp_file [open temp.txt w]
+foreach row $rearrange {
+puts $temp_file [join $row "\t"]
+}
+close $temp_file
+
+set f4 [open temp.txt r]
+set data3 [split [read $f4] "\n"]
+close $f4
+
+set table {}
+lappend table [lindex $data3 0]
+foreach cell $data2 {
+set cell_name [lindex $cell 1]
+foreach row $data3 {
+if {[lindex $row 0] == $cell_name} {
+lappend table $row
+}
+}
+}
+ 
+foreach row $table {
+puts [join $row "\t"]
+}
+close $f1
+close $f2
