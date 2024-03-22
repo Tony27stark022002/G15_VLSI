@@ -13,7 +13,7 @@
 
 ## Name: Keertan V Manu
 
-## Qualifications: Bachelor of Engineering
+## Qualifications:Pursuing Final Year of B.E.
 
 Welcome to the course report for the VLSI FRONTEND! This README document provides an overview of the course, its mini projects and final project.
 
